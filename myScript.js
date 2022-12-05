@@ -13,7 +13,7 @@ function getComputerChoice() {
     return choice;
 }
 
-function playRound(playerInput, computerInput) {
+function playRound(playerInput, computerInput = getComputerChoice()) {
     let playerChoice = playerInput.toUpperCase();
     let computerChoice = computerInput.toUpperCase();
     let winner = '';
@@ -32,7 +32,9 @@ function playRound(playerInput, computerInput) {
         message = message.concat("something unexpected happened.");
         winner = winner.concat('Error');
     }
-    console.log(message);
+    //console.log(message);
+    const showResultDiv = document.querySelector('#last-round-result');
+    showResultDiv.textContent = `\n${message}\n`;
     return winner;
 }
 
@@ -60,4 +62,8 @@ function game(rounds) {
 // let playerSelection = prompt("Please enter 'Rock', 'Paper', or 'Scissors'");
 
 // console.log(playRound(playerSelection, computerSelection));
-console.log(game(5));
+//console.log(game(5));
+const rpsKeys = document.querySelectorAll('.player-selection');
+console.log(rpsKeys);
+rpsKeys.forEach(choice => choice.addEventListener("click", () => playRound(choice.textContent)));
+//rpsKeys.forEach(choice => console.log(choice.textContent));
