@@ -1,3 +1,9 @@
+let playerWins = 0;
+let computerWins = 0;
+let score = document.querySelector('#current-score');
+score.textContent = `Player Wins: ${playerWins} ::: Computer Wins: ${computerWins}`;
+
+
 function getComputerChoice() {
     let randomNum = Math.floor(Math.random() * 3);
     let choice = ''
@@ -34,7 +40,7 @@ function playRound(playerInput, computerInput = getComputerChoice()) {
     }
     //console.log(message);
     const showResultDiv = document.querySelector('#last-round-result');
-    showResultDiv.textContent = `\n${message}\n`;
+    showResultDiv.textContent = `${message}`;
     return winner;
 }
 
@@ -58,12 +64,41 @@ function game(rounds) {
     return "Rounds played: " + rounds.toString() + '\n' + "Player Wins: " + playerWins.toString() + '\n' + "Computer Wins: " + computerWins.toString() + '\n' + "Ties: " + ties.toString();
 }
 
+function playerAction(selection, rounds=5) {
+    let winner = playRound(selection);
+    let winnerResultDiv = document.querySelector('#final-result');
+    winnerResultDiv.textContent = '';
+    if (winner === "Player") {
+        playerWins += 1;
+        score.textContent = `Player Wins: ${playerWins} ::: Computer Wins: ${computerWins}`;
+    } else if (winner === "Computer") {
+        computerWins += 1;
+        score.textContent = `Player Wins: ${playerWins} ::: Computer Wins: ${computerWins}`;
+    } else if (winner === "Tie") {
+        //ties += 1;
+    } else {
+        return "Error";
+    }
+    if (playerWins >= rounds) {
+        winnerResultDiv.textContent = "Player Wins!";
+        playerWins = 0;
+        computerWins = 0;
+    } else if (computerWins >= rounds) {
+        winnerResultDiv.textContent = "Computer Wins!";
+        playerWins = 0;
+        computerWins = 0;
+    } else {
+        winnerResultDiv.removeAttribute(textContent);
+    }
+}
+
 // let computerSelection = getComputerChoice();
 // let playerSelection = prompt("Please enter 'Rock', 'Paper', or 'Scissors'");
 
 // console.log(playRound(playerSelection, computerSelection));
 //console.log(game(5));
 const rpsKeys = document.querySelectorAll('.player-selection');
-console.log(rpsKeys);
-rpsKeys.forEach(choice => choice.addEventListener("click", () => playRound(choice.textContent)));
+rpsKeys.forEach(choice => choice.addEventListener("click", () => playerAction(choice.textContent)));
+
+
 //rpsKeys.forEach(choice => console.log(choice.textContent));
